@@ -139,7 +139,7 @@ describe('Blog Posts API resource', () => {
 
 				return BlogPost.findById(updateData.id);
 			})
-			.then((restaurant) => {
+			.then((post) => {
 				post.title.should.equal(updateData.title);
 				post.content.should.equal(updateData.content);
 				post.author.should.equal(updateData.author);
@@ -149,7 +149,7 @@ describe('Blog Posts API resource', () => {
 	});
 
 	describe('DELETE endpoint', () => {
-		it('delete a restaurant by id', () => {
+		it('delete a post by id', () => {
 
 			let post;
 
