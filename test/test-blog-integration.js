@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 // this module
 const should = chai.should();
 
+const {DATABASE_URL} = require('../config');
 const {BlogPost} = require('../models');
 const {app, runServer, closeServer} = require('../server');
 const {TEST_DATABASE_URL} = require('../config');
@@ -22,6 +23,42 @@ const seedBlogPostData = () => {
 	}
 	return BlogPost.insertMany(seedData);
 };
+
+const generateAuthor = () => {
+	const authors = [
+		'Bloney', 'Matt Foney', 'Bland Costan', 'You daMan'];
+	return authors[Math.floor(Math.random() * authors.length)];
+};
+
+const generateTitle = () => {
+	const titles = [
+	'The Monkey Crossed the Road', 'I hate Monkeys', 'Money.  Make money'];
+	return titles[Math.floor(Math.random() * titles.length)];
+};
+
+const generateContent = () => {
+	const content = [
+	'What?  What happened?  How?', 'Youse bustin a cap real bad', 'Whatcha doing ... maaaaayyyyynnnneee?'];
+	return content[Math.floor(Math.random() * content.length)];
+};
+
+const generateDate = () => {
+function randomDate(start, end) {
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+}
+
+randomDate(new Date(2012, 0, 1), new Date())
+};
+
+const generateBlogPostData = () => {
+	return {
+		author: generateAuthor(),
+		title: generateTitle(),
+		content: generateContent(),
+		date: generateDate()
+	}
+};
+
 
 const tearDownDb = () => {
 	console.warn('Deleting database');
@@ -43,23 +80,32 @@ describe('Blog Posts API resource', () => {
 
 	describe('GET endpoint', () => {
 
-		it('should return all existing blog posts', () => {
-			let res;
-			return chai.request(app);
-				.get('/posts')
-				.then((_res) => {
-					res = _res;
-					res.should.have.status(200);
-					res.body.posts.should.have.length.of.at.least(1);
-					return BlogPost.count();
-				})
-				.then((count) => {
-					res.body.posts.should.have.length.of(count);
-				});
-		});
+    it('should return all existing posts', function() {
+      // strategy:
+      //    1. get back all posts returned by by GET request to `/posts`
+      //    2. prove res has right status, data type
+      //    3. prove the number of posts we got back is equal to number
+      //       in db.
+      let res;
+      return chai.request(app)
+        .get('/posts')
+        .then(_res => {
+          res = _res;
+          res.should.have.status(200);
+          // otherwise our db seeding didn't work
+          res.body.should.have.length.of.at.least(1);
+
+          return BlogPost.count();
+        })
+        .then(count => {
+          // the number of returned posts should be same
+          // as number of posts in DB
+          res.body.should.have.length.of(count);
+        });
+    });
 		it('should return posts with right fields', () => {
 			let resPost;
-			return chai.request(app);
+			return chai.request(app)
 			.get('/posts')
 			.then((res) => {
 				res.should.have.status(200);
@@ -135,7 +181,7 @@ describe('Blog Posts API resource', () => {
 					.send(updateData);	
 			})
 			.then((res) => {
-				res.should.have.stats(204);
+				res.should.have.status(204);
 
 				return BlogPost.findById(updateData.id);
 			})
