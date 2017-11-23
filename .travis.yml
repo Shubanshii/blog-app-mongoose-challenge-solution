@@ -2,3 +2,10 @@ language: node_js
 node_js: node
 services:
 - mongodb
+deploy: afternoon-springs-38710
+  provider: heroku
+  api_key:
+    secure: ADbeAnw4POE2moCTG77OW4nzJ7gEKF9+TUvdhSTiVDNUyuAtQgCcgTEQc900zSoD/4pjaHk3ZtonkTzc0YhHDN+JE9dRy6X2x1QZYUTMEv68dPXoZe55pmTJV0Y7EW3Lb7iMHCoOnR2c/XH5L5fsm8GN2dq3s0OtBbON3KH5VYc+FLfNHhr6btqsPBmENOA2URzGf9mxuuQPm5hj190b+02uDMen5XbAFMMsIDkBe+nvkOBASyf1pJPFNqXXFC0jBieP/fRf6OORlCpz/gJO+sh5sJd5Ng9GuOfmfp445/K8CXTxY5ZzjrJ/BGEolQEJOUGog70Bx9PTkLxQHOsyFXnZCa1eYGGawWT8WNIX4rJQh4vZ5Ea6YbY4R/j9J2ZfNufBlxhV5hDNVrv3LW5a/m5t8rv31vORZutWOcc474iVNu04SPle4doRg8luUbEX9mtnEPOG9cDrmedEisB9B7/5UKgx+vCP0ZYG2zS/LG06GFtqF7MlxmLmTdM8XgacvfGLIYyblFFrM1B6frkd3o2mkGZVEJarfsTyeT08DaEQ3VxZEuE7s0mERFuKjrzhzKWKAmy0CMYT0lRsD3++WgONdb5VcMvYOU3mOmNHZSdOr9Ik8PEU4HJB5hsbStjMTpe1RZEYBKpTFHieCOpW83Oj+BSP0lsLWshUW8in1AM=
+  app: blog-app-mongoose-challenge-solution
+  on:
+    repo: Shubanshii/blog-app-mongoose-challenge-solution
